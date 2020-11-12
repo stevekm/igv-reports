@@ -108,3 +108,5 @@ venv.bak/
 .idea/
 /venv2/
 /Trinity_Junctions/
+.DS_Store
+conda/

@@ -10,6 +10,30 @@ class TableTest(unittest.TestCase):
         table = varianttable.VariantTable(vcf_path)
         self.assertEqual(len(table.variants), 28)
 
+    def test_vcf_info_columns(self):
+        info_cols = [
+            "AC",
+            "AF",
+            "AN",
+            "BaseQRankSum",
+            "DP",
+            "DS",
+            "ExcessHet",
+            "FS",
+            "InbreedingCoeff",
+            "MLEAC",
+            "MLEAF",
+            "MQ",
+            "MQRankSum",
+            "QD",
+            "RAW_MQ",
+            "ReadPosRankSum",
+            "SOR"
+        ]
+        vcf_path = str((pathlib.Path(__file__).parent / "data/minigenome/variants.vcf").resolve())
+        table = varianttable.VariantTable(vcf_path, info_columns = info_cols)
+        print(table.to_JSON())
+
     def test_bedtable(self):
 
         bed_file = str((pathlib.Path(__file__).parent / "data/minigenome/variants.bed").resolve())
@@ -26,9 +50,3 @@ class TableTest(unittest.TestCase):
         json = table.to_JSON()
         self.assertTrue(len(table.features), 2106)
         self.assertTrue(json)
-
-
-
-
-
-
