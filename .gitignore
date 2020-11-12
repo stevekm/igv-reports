@@ -108,7 +108,9 @@ venv.bak/
 .idea/
 /venv2/
 /Trinity_Junctions/
+
 conda
 hg19.fasta
 *.html
 .DS_Store
+conda/
