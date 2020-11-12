@@ -24,9 +24,11 @@ install: conda
 	conda config --add channels r
 	conda config --add channels bioconda
 	conda install -y pysam
-	pip install igv-reports
-	# pip install -e . --user # 
+	# pip install igv-reports
+	# pip install -e . --user #
 
+install-dev: install
+	pip install -r requirements.txt
 
 # get other genome files;
 # https://medium.com/@anton.babenko/aws-console-browse-public-s3-bucket-without-asking-for-listing-permission-bf84e62b45cb
@@ -54,6 +56,24 @@ test-vcf:
 	--tracks examples/variants/variants.vcf.gz examples/variants/recalibrated.bam \
 	examples/variants/refGene.sort.bed.gz \
 	--output igvjs_viewer.html
+
+
+test-vcf2:
+	create_report \
+	examples/variants/variants.vcf.gz \
+	$(GENOME) \
+	--ideogram examples/variants/cytoBandIdeo.txt \
+	--flanking 1000 \
+	--info-columns AC \
+	--tracks examples/variants/variants.vcf.gz examples/variants/recalibrated.bam \
+	examples/variants/refGene.sort.bed.gz \
+	--output igvjs_viewer.html
+
+
+test:
+	python -m unittest test.test_table
+.PHONY:test
+
 
 VCF=
 BAM=
