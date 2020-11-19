@@ -27,6 +27,12 @@ install: conda
 	# pip install igv-reports
 	# pip install -e . --user #
 
+install-pip:install
+	pip install igv-reports
+
+install-repo:install
+	python setup.py install
+
 install-dev: install
 	pip install -r requirements.txt
 
