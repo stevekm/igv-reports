@@ -56,6 +56,7 @@ test-vcf:
 	create_report \
 	examples/variants/variants.vcf.gz \
 	$(GENOME) \
+	--standalone \
 	--ideogram examples/variants/cytoBandIdeo.txt \
 	--flanking 1000 \
 	--info-columns GENE TISSUE TUMOR COSMIC_ID GENE SOMATIC \
