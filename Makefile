@@ -24,11 +24,14 @@ install: conda
 	conda config --add channels r
 	conda config --add channels bioconda
 	conda install -y pysam
-	# pip install igv-reports
-	# pip install -e . --user #
-
-install-dev: install
 	pip install -r requirements.txt
+	python setup.py install
+
+# NOTE: pip kept installing verion 1.0.1 of igv-reports, which lacked some needed bug fixes, so install directly from the repo here
+# pip install igv-reports
+# pip install -e . --user #
+# install-dev: install
+# 	pip install -r requirements.txt
 
 # get other genome files;
 # https://medium.com/@anton.babenko/aws-console-browse-public-s3-bucket-without-asking-for-listing-permission-bf84e62b45cb
@@ -76,7 +79,8 @@ test:
 
 
 VCF=
-BAM=
+BAM1=
+BAM2=
 OUTPUT=igvjs_viewer.html
 report:
 	create_report \
@@ -84,26 +88,14 @@ report:
 	"$(GENOME)" \
 	--ideogram examples/variants/cytoBandIdeo.no_chr.txt \
 	--flanking 1000 \
-	--info-columns MAPQ \
+	--info-columns MAPQ SVTYPE SPAN EVDNC \
+	--sample-columns LO DP AD SR \
 	--tracks \
 	"$(VCF)" \
-	"$(BAM)" \
-	examples/variants/refGene.sort.no_chr.bed \
+	"$(BAM1)" \
+	"$(BAM2)" \
+	examples/variants/refGene.sort.no_chr.bed.gz \
 	--output "$(OUTPUT)"
-# --info-columns MAPQ SVTYPE \
-# --sample-columns tumor.bam normal.bam
-# INFO
-# MAPQ
-# SVTYPE
-
-# FILTER
-# PASS
-#
-# FORMAT
-# LO DP AD
-
-##SAMPLE=<ID=tumor.bam>
-##SAMPLE=<ID=normal.bam>
 
 # ValueError: could not create iterator for region '1:4918433-4919434'
 # Yes this error occurs when you have a structural variant on a contig that's not present in the SNV VCF. I think I resolved the issue with this commit 155e2b5
